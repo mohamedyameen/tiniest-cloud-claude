@@ -738,13 +738,13 @@ resolved, so no rule can grant one user's data to another.
 
 Through the Tiniest Cloud MCP server:
 
-- `get_starter(kind)`, if your connection has it — a starter project to build from (above)
+- `get_starter(kind)` — a starter project to build from (above)
 - `deploy(slug, files)` — creates the app on first use; every deploy is a new version
-- `start_upload(slug, size)`, if your connection has it — for a build over 2 MB: an upload link, then `deploy(slug, upload_id)`
+- `start_upload(slug, size)` — for a build over 2 MB: an upload link, then `deploy(slug, upload_id)`
 - `list_apps`, `list_versions`, `rollback` — history is immutable and restorable
 - `deploy(slug, files)` always saves a draft; nothing goes live from a deploy. The person puts it live with Publish in the build view; there is no tool for you to publish. Publish refuses a version whose code calls `tiny.*` but never loads /sdk.js, and says why
 - `unpublish(slug)` takes an app offline without deleting anything (its address says it is not published; data, versions and app keys are untouched); Publish in the build view brings it back
-- `set_webhook`, `list_webhooks`, if your connection has them — addresses other services call (see "Receiving from other services")
+- `set_webhook`, `list_webhooks` — addresses other services call (see "Receiving from other services")
 - `share`, `set_data_mode`, `set_space`, `set_space_access` — access and tenancy
 
 Nothing deletes through a tool. An app, a stored entry, a connection, a domain, a job, a webhook
@@ -837,7 +837,7 @@ Whether or not you can, these are worth doing:
 - `read_app_data` — read what the app has actually stored. This is the real check on
   whether a write worked, whether the shape is what you intended, whether a key ended up
   where you meant it to.
-- `write_app_data`, if your connection has it — put a row in and then read it back, to
+- `write_app_data` — put a row in and then read it back, to
   prove the app renders what is there before anyone has typed anything.
 - `list_versions` — confirm the deploy landed and which version is live.
 
@@ -1239,8 +1239,7 @@ output. A deployment that has not switched functions on answers `tiny.call` with
 
 ---
 
-Deployment needs the Tiniest Cloud MCP server connected. The Tiniest Cloud plugin connects it;
-without the plugin, Settings → Coding agents on the Tiniest Cloud web page shows the one command
-for Claude Code, Cursor, Codex and other agents, and in claude.ai or the Claude desktop app it is
-added as a custom connector under Customize → Connectors. Signing in happens in the browser; there
-is no key to type.
+Deployment needs the Tiniest Cloud MCP server connected, and this plugin connects it. Without the
+plugin, Claude Code adds it with the command under Settings → Coding agents on the Tiniest Cloud
+web page, and claude.ai or the Claude desktop app adds it as a custom connector under Customize →
+Connectors. Signing in happens in the browser; there is no key to type.
