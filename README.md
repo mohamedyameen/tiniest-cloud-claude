@@ -31,7 +31,7 @@ This plugin adds three things:
     /plugin install tiniest-cloud@tiniest-cloud
 
 The first time Claude uses a Tiniest Cloud tool, your browser opens to sign in (or create a
-free account). There is no API key to paste.
+free account). There is nothing to paste.
 
 ## Try it
 

@@ -786,9 +786,10 @@ building it right the first time; this is for apps that already exist.
 
 Every deploy is checked before it goes live. Safe fixes are applied automatically and
 reported back: a wrapper folder or a lone dist/build folder is re-rooted, and
-node_modules/.git are never stored. Files that look like credentials (.env and friends)
-fail the deploy. Framework source with a `build` script and nothing built is built on the
-platform (above); source without one is refused — build it, then deploy the output.
+node_modules/.git are never stored. Deploy only the app's own files: a file of private
+settings never goes up, and a deploy that includes one is refused. Framework source with a
+`build` script and nothing built is built on the platform (above); source without one is
+refused — build it, then deploy the output.
 
 ## Installable (PWA)
 
@@ -909,8 +910,8 @@ server that is not here. The conversion is mechanical:
    `tiny.db.delete(key)`; server-side totals → `count`/`sum`/`countBy`/`sumBy`.
    Key records under a prefix per collection ("todo:<id>"). Third-party APIs the app
    calls directly (weather, maps) are not its backend — leave them.
-4. Delete the login: token storage, auth headers, and the login/register/me
-   endpoints all go. `tiny.me()` on load; `tiny.login()` when it returns null.
+4. Delete the old login code and its login/register/me endpoints. `tiny.me()` on load;
+   `tiny.login()` when it returns null.
 5. Write `tiny.rules.json` for the record shapes, run the build, deploy the output.
 
 Calls the old server made to third-party APIs (Slack, a price feed, a mail provider) become
@@ -922,9 +923,9 @@ that feature visibly rather than faking it.
 
 ## Calling other services — tiny.fetch
 
-A hosted app is static files, so an API key in its code is public. Instead the OWNER saves the
-key once as a named connection (the app's Connections panel, or the `set_connection` tool),
-and the app calls the API by that name:
+A hosted app is static files, so anything in its code is public. When an outside API needs a
+key, the OWNER adds it in Tiniest Cloud as a named connection (`set_connection` sets up the
+slot; the key goes in the app's Connections panel), and the app calls the API by that name:
 
     const res = await tiny.fetch("prices", { path: "/v1/gold?currency=INR" });
     if (res.ok) render(res.json);          // { ok, status, headers, text, json }
@@ -934,8 +935,8 @@ and the app calls the API by that name:
 Rules the platform enforces, so design around them:
 
 - A connection reaches ONE host. `path` is appended to its base URL; it cannot name a host.
-- The secret is attached by the server (as a bearer token, a header, a query parameter or
-  basic auth). The app never sends or sees it; an auth header the app sets is ignored.
+- Tiniest Cloud adds the owner's key to each call on its side, in the form the API expects.
+  The app never sends or sees it; a header the app sets for it is ignored.
 - https only. No redirects followed. 10 s timeout, 256 KB request, 2 MB response.
 - Limits: a burst per minute per app, and a monthly count from the owner's plan shared by every app in the space (with a quiet daily guard of a tenth of it). Every plan's numbers are on the platform's /pricing.md page.
 - Visitors with no account may call a connection only if the owner marked it public AND the
@@ -1150,12 +1151,9 @@ deliveries a minute per app.
 ## Reaching an app's data from a script — app keys
 
 For something outside a browser — a spreadsheet export, a Zapier step, a cron job on another
-server — make an app key (create_app_key, or the app's Keys panel). The script sends it with
-each request, as a bearer token in the standard header, to the app's own data API at the app's
-own address, the same endpoints the SDK uses:
-
-    GET  /_api/kv/list?prefix=order:&order=-%24created_at&limit=20
-    POST /_api/kv/set     JSON body {"key":"order:1","value":{"total":5}}
+server — the owner makes an app key in Tiniest Cloud: in the card `create_app_key` shows, or in
+the app's Keys panel. That is where the key appears, once, with an example of a script using
+it; the script belongs to the owner and runs outside this conversation.
 
 A key reaches that app's data and nothing else — no AI, no tiny.fetch, no files, no functions —
 and sees what a scheduled job sees: the pool in a shared app, the owner's own data in a private
