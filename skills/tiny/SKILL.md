@@ -21,6 +21,10 @@ for another service's API, `jobs` for scheduled work). Before designing, call it
 `design`, `app`, `website`, `dashboard`, `presentation` or `form` — for how that kind of
 thing should look.
 
+The tools (`tiny_guide`, `deploy` and the rest) come from the Tiniest Cloud connector, which the
+person adds once. If they are missing, give the person this link to add it: https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=Tiniest%20Cloud&connectorUrl=https%3A%2F%2Fapp.tiniest.cloud%2Fmcp
+(in Claude Code, `claude mcp add --transport http tiniest-cloud https://app.tiniest.cloud/mcp`).
+
 Name an app by its short name (`notes`) or its full one (`notes--acme`). Work on the app the
 person means; call `list_apps` only when they ask what they have, or with `search` to find one.
 
@@ -1344,7 +1348,9 @@ output. A deployment that has not switched functions on answers `tiny.call` with
 
 ---
 
-Deployment needs the Tiniest Cloud MCP server connected, and this plugin connects it. Without the
-plugin, Claude Code adds it with the command under Settings → Coding agents on the Tiniest Cloud
-web page, and claude.ai or the Claude desktop app adds it as a custom connector under Customize →
-Connectors. Signing in happens in the browser; there is no key to type.
+Deployment needs the Tiniest Cloud connector, which the person adds once. On claude.ai or the
+Claude desktop app, this link opens Customize → Connectors with it filled in: https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=Tiniest%20Cloud&connectorUrl=https%3A%2F%2Fapp.tiniest.cloud%2Fmcp
+(or Add custom connector with the address https://app.tiniest.cloud/mcp). A connector added
+there also reaches Claude Code signed in to the same account; Claude Code can also add it with
+`claude mcp add --transport http tiniest-cloud https://app.tiniest.cloud/mcp`. Signing in
+happens in the browser; there is no key to type.

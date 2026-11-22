@@ -1,8 +1,8 @@
 {
   "name": "tiniest-cloud",
   "displayName": "Tiniest Cloud",
-  "version": "1.0.17",
-  "description": "Build and put unlimited apps, websites, dashboards and reports online, free and secure, right from Claude. Each one comes with sign-in, a database, realtime, push notifications, scheduled jobs and AI built in, with no server to set up.",
+  "version": "1.0.18",
+  "description": "Build and put unlimited apps, websites, dashboards and reports online, free and secure, right from Claude with the Tiniest Cloud connector. Each one comes with sign-in, a database, realtime, push notifications, scheduled jobs and AI built in, with no server to set up.",
   "author": {
     "name": "Tiniest Cloud",
     "email": "support@tiniest.cloud",
@@ -18,13 +18,6 @@
     "web-apps",
     "auth",
     "storage",
-    "ai",
-    "mcp"
-  ],
-  "mcpServers": {
-    "tiniest-cloud": {
-      "type": "http",
-      "url": "https://app.tiniest.cloud/mcp"
-    }
-  }
+    "ai"
+  ]
 }
